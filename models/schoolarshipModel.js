@@ -20,7 +20,7 @@ const schoolarshipSchema = new mongoose.Schema(
     type: {
       type: String,
       enum: {
-        values: ["fresh", "renewal"],
+        values: ["Fresh", "Renewal"],
       },
       required: true,
     },
@@ -40,10 +40,10 @@ const schoolarshipSchema = new mongoose.Schema(
       required: true,
       enum: {
         values: [
-          "prematric",
-          "intermediate",
-          "postmatric other than inter",
-          "postmatric other state",
+          "Prematric",
+          "Intermediate",
+          "Postmatric other than inter",
+          "Postmatric other state",
         ],
       },
     },

@@ -2,29 +2,30 @@ const catchAsync = require("./../utils/catchAsync");
 const Schoolarship = require("./../models/schoolarshipModel");
 
 exports.getAllEntrySchoolarship = catchAsync(async (req, res, next) => {
-  const schoolarships = await Schoolarship.find();
+  const doc = await Schoolarship.find();
   res.status(201).json({
     status: "success",
-    results: schoolarships.length,
+    results: doc.length,
     data: {
-      schoolarships,
+      heading: "All Schoolarship Form Data Table",
+      doc,
     },
   });
 });
 
 exports.createEntry = catchAsync(async (req, res, next) => {
-  const newEntry = await Schoolarship.create(req.body);
+  const doc = await Schoolarship.create(req.body);
   res.status(201).json({
     status: "success",
     data: {
-      newEntry,
+      doc,
     },
   });
 });
 
 exports.updateEntry = catchAsync(async (req, res, next) => {
   const id = req.params.id;
-  const schoolarship = await Schoolarship.findByIdAndUpdate(id, req.body, {
+  const doc = await Schoolarship.findByIdAndUpdate(id, req.body, {
     //this option with new set to true returns the updated tour
     new: true,
     runValidators: true,
@@ -32,7 +33,7 @@ exports.updateEntry = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    data: { schoolarship },
+    data: { doc },
   });
 });
 
@@ -56,28 +57,48 @@ exports.deleteEntry = catchAsync(async (req, res, next) => {
 
 exports.getEntryByName = catchAsync(async (req, res, next) => {
   const firstname = req.params.name;
-  const entry = await Schoolarship.find({ firstname: firstname });
+  const doc = await Schoolarship.find({ firstname: firstname });
+  if (doc.length === 0) {
+    return res.status(200).json({
+      status: "success",
+      data: {
+        heading: `No Data Found For Name: ${firstname} `,
+        doc,
+      },
+    });
+  }
   res.status(200).json({
     status: "success",
     data: {
-      entry,
+      heading: `Data For Name: ${firstname}`,
+      doc,
     },
   });
 });
 
 exports.getEntryByRegNo = catchAsync(async (req, res, next) => {
   const regno = req.params.regno;
-  const entry = await Schoolarship.find({ registrationNo: regno });
+  const doc = await Schoolarship.find({ registrationNo: regno });
+  if (doc.length === 0) {
+    return res.status(200).json({
+      status: "success",
+      data: {
+        heading: `No Data Found For Registration Number: ${regno}`,
+        doc,
+      },
+    });
+  }
   res.status(200).json({
     status: "success",
     data: {
-      entry,
+      heading: `Data For Registration Number: ${regno}`,
+      doc,
     },
   });
 });
 
 exports.sortByDate = catchAsync(async (req, res, next) => {
-  const entry = await Schoolarship.aggregate([
+  const doc = await Schoolarship.aggregate([
     {
       $sort: {
         date: 1,
@@ -88,13 +109,14 @@ exports.sortByDate = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     data: {
-      entry,
+      heading: "Sorted By Date",
+      doc,
     },
   });
 });
 
 exports.sortByFresh = catchAsync(async (req, res, next) => {
-  const entry = await Schoolarship.aggregate([
+  const doc = await Schoolarship.aggregate([
     {
       $sort: {
         type: 1,
@@ -105,13 +127,14 @@ exports.sortByFresh = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     data: {
-      entry,
+      heading: "Sorted By Fresh",
+      doc,
     },
   });
 });
 
 exports.sortByRenewal = catchAsync(async (req, res, next) => {
-  const entry = await Schoolarship.aggregate([
+  const doc = await Schoolarship.aggregate([
     {
       $sort: {
         type: -1,
@@ -122,13 +145,14 @@ exports.sortByRenewal = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     data: {
-      entry,
+      heading: "Sorted By Renewal",
+      doc,
     },
   });
 });
 
 exports.sortByPaid = catchAsync(async (req, res, next) => {
-  const entry = await Schoolarship.aggregate([
+  const doc = await Schoolarship.aggregate([
     {
       $sort: {
         paid: 1,
@@ -139,7 +163,8 @@ exports.sortByPaid = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     data: {
-      entry,
+      heading: "Sorted By Payment",
+      doc,
     },
   });
 });
