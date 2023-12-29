@@ -2,7 +2,7 @@ const catchAsync = require("./../utils/catchAsync");
 const Schoolarship = require("./../models/schoolarshipModel");
 
 exports.getAllEntrySchoolarship = catchAsync(async (req, res, next) => {
-  const doc = await Schoolarship.find();
+  const doc = await Schoolarship.find().sort({ _id: -1 });
   res.status(201).json({
     status: "success",
     results: doc.length,

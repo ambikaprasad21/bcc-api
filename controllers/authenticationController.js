@@ -23,6 +23,7 @@ exports.login = catchAsync(async (req, res, next) => {
     const token = jwt.sign(user.username, secretKey);
     res
       .cookie("jwt", token, {
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         sameSite: "None",
         secure: true,
       })
