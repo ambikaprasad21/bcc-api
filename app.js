@@ -3,6 +3,8 @@ const morgan = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const schoolarshipRoute = require("./routes/schoolarshipRoute");
+const notificationRoute = require("./routes/notificationRoute");
+const breakingNewsRoute = require("./routes/breakingNewsRoute");
 const authenticationController = require("./controllers/authenticationController");
 const authRoute = require("./routes/authRoute");
 const AppError = require("./utils/appError");
@@ -13,7 +15,7 @@ app.use(morgan("dev"));
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://bcccafe.vercel.app"],
   })
 );
 app.use(express.json());
@@ -25,6 +27,9 @@ app.use(
   authenticationController.protect,
   schoolarshipRoute
 );
+
+app.use("/api/v1/notification", notificationRoute);
+app.use("/api/v1/breaking/news", breakingNewsRoute);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
