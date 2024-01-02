@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const session = require("express-session");
 const schoolarshipRoute = require("./routes/schoolarshipRoute");
 const notificationRoute = require("./routes/notificationRoute");
 const breakingNewsRoute = require("./routes/breakingNewsRoute");
@@ -11,6 +12,7 @@ const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 const app = express();
 app.use(cookieParser());
+
 app.use(morgan("dev"));
 app.use(
   cors({
@@ -19,6 +21,11 @@ app.use(
   })
 );
 app.use(express.json());
+// Disable caching
+app.use((req, res, next) => {
+  res.header("Cache-Control", "no-store, no-cache, must-revalidate, private");
+  next();
+});
 
 app.use("/api/v1/auth", authRoute);
 

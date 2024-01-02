@@ -3,8 +3,8 @@ const catchAsync = require("./../utils/catchAsync");
 
 exports.login = catchAsync(async (req, res, next) => {
   const user = {
-    username: "admin",
-    password: "root",
+    username: process.env.USER,
+    password: process.env.PASSWORD,
   };
 
   const secretKey = process.env.JWT_SECRET;
@@ -20,12 +20,13 @@ exports.login = catchAsync(async (req, res, next) => {
       },
     });
   } else {
-    const token = jwt.sign(user.username, secretKey);
+    const token = jwt.sign({ username: user.username }, secretKey);
     res
       .cookie("jwt", token, {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         sameSite: "None",
         secure: true,
+        httpOnly: true,
       })
       .json({
         token,
@@ -49,8 +50,13 @@ exports.protect = catchAsync(async (req, res, next) => {
       return res.status(401).json({ message: "Unauthorized - Invalid token" });
     }
     req.user = decoded;
+
     next();
   });
+
+  // res.send({
+  //   msg: "authentication",
+  // });
 });
 
 exports.logout = catchAsync(async (req, res, next) => {
