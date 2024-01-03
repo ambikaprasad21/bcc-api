@@ -20,7 +20,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://bcccafe.vercel.app",
-      "https://bcc-frontend-kws7p360b-ambika-prasads-projects.vercel.app/",
+      "https://bcc-frontend-kws7p360b-ambika-prasads-projects.vercel.app",
     ],
     // origin: "*",
   })
