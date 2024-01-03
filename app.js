@@ -22,10 +22,10 @@ app.use(
 );
 app.use(express.json());
 // Disable caching
-app.use((req, res, next) => {
-  res.header("Cache-Control", "no-store, no-cache, must-revalidate, private");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header("Cache-Control", "no-store, no-cache, must-revalidate, private");
+//   next();
+// });
 
 app.use("/api/v1/auth", authRoute);
 
