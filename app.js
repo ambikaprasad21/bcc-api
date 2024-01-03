@@ -17,7 +17,8 @@ app.use(morgan("dev"));
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:5173", "https://bcccafe.vercel.app"],
+    // origin: ["http://localhost:5173", "https://bcccafe.vercel.app"],
+    origin: "*",
   })
 );
 app.use(express.json());
