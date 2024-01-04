@@ -3,7 +3,7 @@ const catchAsync = require("./../utils/catchAsync");
 
 exports.login = catchAsync(async (req, res, next) => {
   const user = {
-    username: process.env.USER,
+    username: process.env.USERNAME,
     password: process.env.PASSWORD,
   };
 
