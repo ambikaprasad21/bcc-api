@@ -6,22 +6,22 @@ exports.getAllEntrySchoolarship = catchAsync(async (req, res, next) => {
   let query = Schoolarship.find().sort({ _id: -1 });
 
   // pagination
-  const page = req.query.page * 1 || 1;
-  const limit = req.query.limit * 1 || 5;
-  const skip = (page - 1) * limit;
-  query = query.skip(skip).limit(limit);
+  // const page = req.query.page * 1 || 1;
+  // const limit = req.query.limit * 1 || 5;
+  // const skip = (page - 1) * limit;
+  // query = query.skip(skip).limit(limit);
 
-  // const doc = await Schoolarship.find().sort({ _id: -1 });
+  // // const doc = await Schoolarship.find().sort({ _id: -1 });
 
-  const numSchoolarship = await Schoolarship.countDocuments();
-  if (req.query.page) {
-    if (skip >= numSchoolarship) throw new Error("This page does not exist");
-  }
+  // const numSchoolarship = await Schoolarship.countDocuments();
+  // if (req.query.page) {
+  //   if (skip >= numSchoolarship) throw new Error("This page does not exist");
+  // }
 
   const doc = await query;
   res.status(201).json({
     status: "success",
-    results: numSchoolarship,
+    results: doc.length,
     data: {
       heading: "All Schoolarship Form Data Table",
       doc,
