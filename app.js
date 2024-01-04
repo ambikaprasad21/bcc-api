@@ -31,7 +31,9 @@ app.use(express.json());
 //   res.header("Cache-Control", "no-store, no-cache, must-revalidate, private");
 //   next();
 // });
-
+app.use("/", (req, res, next) => {
+  res.send("hello world");
+});
 app.use("/api/v1/auth", authRoute);
 
 app.use(
