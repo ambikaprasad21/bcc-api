@@ -1,0 +1,5 @@
+{
+  "appService.zipIgnorePattern": ["node_modules{,/**}", ".vscode{,/**}"],
+  "appService.defaultWebAppToDeploy": "/subscriptions/9c90e9f0-33df-449e-bd08-98ac2d3ae89f/resourceGroups/bcccafe_group/providers/Microsoft.Web/sites/bcccafe",
+  "appService.deploySubpath": "."
+}
