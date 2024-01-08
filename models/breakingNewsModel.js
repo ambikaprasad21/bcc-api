@@ -5,6 +5,10 @@ const breakingNewsSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  link: {
+    type: String,
+    trim: true,
+  },
 });
 
 const breakingNews = mongoose.model("BreakingNews", breakingNewsSchema);
