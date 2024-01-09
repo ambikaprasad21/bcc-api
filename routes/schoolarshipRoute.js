@@ -25,4 +25,5 @@ router
 router
   .route("/getEntryByRegno/:regno")
   .get(schoolarshipController.getEntryByRegNo);
+
 module.exports = router;

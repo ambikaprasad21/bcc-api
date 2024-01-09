@@ -6,6 +6,7 @@ const session = require("express-session");
 const schoolarshipRoute = require("./routes/schoolarshipRoute");
 const notificationRoute = require("./routes/notificationRoute");
 const breakingNewsRoute = require("./routes/breakingNewsRoute");
+const jobRoute = require("./routes/jobRoute");
 const authenticationController = require("./controllers/authenticationController");
 const authRoute = require("./routes/authRoute");
 const AppError = require("./utils/appError");
@@ -47,7 +48,7 @@ app.use(
 
 app.use("/api/v1/notification", notificationRoute);
 app.use("/api/v1/breaking/news", breakingNewsRoute);
-
+app.use("/api/v1/job", jobRoute);
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
