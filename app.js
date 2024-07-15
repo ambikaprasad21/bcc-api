@@ -15,17 +15,17 @@ const app = express();
 app.use(cookieParser());
 
 app.use(morgan("dev"));
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: [
-//       "http://localhost:5173",
-//       "https://bcccafe.vercel.app",
-//       "https://bcc-frontend-kws7p360b-ambika-prasads-projects.vercel.app",
-//     ],
-//     // origin: "*",
-//   })
-// );
+app.use(
+  cors({
+    credentials: true,
+    origin: [
+      "http://localhost:5173",
+      "https://bcccafe.vercel.app",
+      "https://bcc-frontend-kws7p360b-ambika-prasads-projects.vercel.app",
+    ],
+    // origin: "*",
+  })
+);
 app.use(express.json());
 
 app.use((req, res, next) => {
