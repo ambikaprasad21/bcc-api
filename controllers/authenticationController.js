@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const catchAsync = require("./../utils/catchAsync");
+const AppError = require("../utils/appError");
 
 exports.login = catchAsync(async (req, res, next) => {
   const user = {
@@ -20,7 +21,9 @@ exports.login = catchAsync(async (req, res, next) => {
       },
     });
   } else {
-    const token = jwt.sign({ username: user.username }, secretKey);
+    const token = jwt.sign({ username: user.username }, secretKey, {
+      expiresIn: "1h",
+    });
     res
       .cookie("jwt", token, {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
@@ -36,23 +39,30 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
-  const token = req.cookies.jwt;
-  const secretKey = process.env.JWT_SECRET;
+  try {
+    // const token = req.cookies.jwt;
+    const token = req.headers.authorization.split(" ")[1];
+    const secretKey = process.env.JWT_SECRET;
 
-  if (!token) {
-    return res
-      .status(401)
-      .json({ message: "Unauthorized - Token not provided" });
-  }
-
-  jwt.verify(token, secretKey, (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ message: "Unauthorized - Invalid token" });
+    if (!token) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized - Token not provided" });
     }
-    req.user = decoded;
 
-    next();
-  });
+    jwt.verify(token, secretKey, (err, decoded) => {
+      if (err) {
+        return res
+          .status(401)
+          .json({ message: "Unauthorized - Invalid token" });
+      }
+      req.user = decoded;
+
+      next();
+    });
+  } catch (err) {
+    return next(new AppError("Some error occured please try again", 400));
+  }
 
   // res.send({
   //   msg: "authentication",

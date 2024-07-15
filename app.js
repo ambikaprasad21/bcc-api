@@ -15,18 +15,28 @@ const app = express();
 app.use(cookieParser());
 
 app.use(morgan("dev"));
-app.use(
-  cors({
-    credentials: true,
-    origin: [
-      "http://localhost:5173",
-      "https://bcccafe.vercel.app",
-      "https://bcc-frontend-kws7p360b-ambika-prasads-projects.vercel.app",
-    ],
-    // origin: "*",
-  })
-);
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: [
+//       "http://localhost:5173",
+//       "https://bcccafe.vercel.app",
+//       "https://bcc-frontend-kws7p360b-ambika-prasads-projects.vercel.app",
+//     ],
+//     // origin: "*",
+//   })
+// );
 app.use(express.json());
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept,Athorization"
+  );
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
+  next();
+});
 // Disable caching
 // app.use((req, res, next) => {
 //   res.header("Cache-Control", "no-store, no-cache, must-revalidate, private");
