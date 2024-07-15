@@ -69,6 +69,30 @@ exports.protect = catchAsync(async (req, res, next) => {
   // });
 });
 
+exports.getLoggedInUser = catchAsync(async (req, res, next) => {
+  try {
+    // const token = req.cookies.jwt;
+    const token = req.headers["authorization"].split(" ")[1];
+    const secretKey = process.env.JWT_SECRET;
+
+    if (!token) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized - Token not provided" });
+    }
+
+    jwt.verify(token, secretKey, (err, decoded) => {
+      if (err) {
+        return res
+          .status(401)
+          .json({ message: "Unauthorized - Invalid token" });
+      }
+    });
+  } catch (err) {
+    return next(new AppError("Some error occured please try again", 400));
+  }
+});
+
 exports.logout = catchAsync(async (req, res, next) => {
   res.clearCookie("jwt");
   res.json({ message: "Logout successful" });
